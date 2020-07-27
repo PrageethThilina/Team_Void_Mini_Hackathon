@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { navigationRef } from './RootNavigation'
 import Login from './screens/Login'
 import Dashboard from './screens/Dashboard'
+import SearchGift from './screens/SearchGift'
+import ViewGift from './screens/ViewGift'
 
 const Stack = createStackNavigator()
 const App = () => {
@@ -30,6 +32,16 @@ const App = () => {
         <Stack.Screen
           name='Dashboard'
           component={Dashboard}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='SearchGift'
+          component={SearchGift}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='ViewGift'
+          component={ViewGift}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -1,33 +1,40 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Image, Button, TextInput } from 'react-native'
-import { StatusBar } from 'expo-status-bar'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons'
 import { registerUser, loginUser } from '../Fire'
+import { Spinner } from 'native-base'
 
 const Login = ({ navigation }) => {
   const [formData, setFormData] = useState({ username: '', password: '' })
+  const [ready, setReady] = useState(true)
 
   const onSubmitUser = async () => {
     const { username, password } = formData
     try {
+      setReady(false)
       await registerUser(username.trim(), password.trim())
       setFormData({ username: '', password: '' })
+      setReady(true)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const onLoginUser = () => {
+  const onLoginUser = async () => {
     const { username, password } = formData
     try {
-      loginUser(username.trim(), password.trim())
+      setReady(false)
+      await loginUser(username.trim(), password.trim())
       setFormData({ username: '', password: '' })
+      setReady(true)
     } catch (error) {
       console.log(error)
     }
   }
-
+  if (!ready) {
+    return <Spinner color='red' />
+  }
   return (
     <View style={styles.container}>
       <View style={styles.circle} />
@@ -43,6 +50,7 @@ const Login = ({ navigation }) => {
           style={{ width: 150, height: 150, alignSelf: 'center' }}
         />
       </View>
+
       <View style={{ marginHorizontal: 32 }}>
         <Text style={styles.header}>Username:</Text>
         <TextInput
